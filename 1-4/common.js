@@ -1,10 +1,36 @@
-﻿$(function() {
-    $(".menu>a").click(function(e) {
-        $(".menu>a.selected").removeClass();
-        $(".content").load($(this).addClass("selected").attr("href"));
-        e.preventDefault();
-    }).first().click();
-});
+﻿// $(function() {
+//     $(".menu>a").click(function(e) {
+//         $(".menu>a.selected").removeClass();
+//         $(".content").load($(this).addClass("selected").attr("href"));
+//         e.preventDefault();
+//     }).first().click();
+// });
+window.onload = function(){
+    let selectNum = 0;
+    document.querySelectorAll('.menu > a').forEach((el,i) => {
+        // el.addEventListener('click',function(e){
+        el.addEventListener('click',e => {
+            console.log(selectNum);
+            console.log(i);
+            console.log(e.target.getAttribute('href'));
+            console.log(el.getAttribute('href'));
+            selectNum = i
+            console.log(selectNum);
+            axios.get('./'+el.getAttribute('href')).then(function(res){
+              document.getElementsByClassName('content')[0].innerHTML = res.data;
+            }).catch(function(error){
+                document.getElementsByClassName('content')[0].innerHTML = 'API ERROR';
+            });
+            e.preventDefault();
+        });
+    });
+    axios.get('./Page0.html').then(function(res){
+        document.getElementsByClassName('content')[0].innerHTML = res.data;
+        
+    }).catch(function(error){
+        document.getElementsByClassName('content')[0].innerHTML = 'API ERROR';
+    });
+}
 
 // $(function(){
 // 	var Number=1;

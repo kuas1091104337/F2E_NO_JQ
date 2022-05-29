@@ -6,29 +6,31 @@
 //     }).first().click();
 // });
 window.onload = function(){
-    let selectNum = 0;
     document.querySelectorAll('.menu > a').forEach((el,i) => {
-        // el.addEventListener('click',function(e){
         el.addEventListener('click',e => {
-            console.log(selectNum);
-            console.log(i);
-            console.log(e.target.getAttribute('href'));
-            console.log(el.getAttribute('href'));
-            selectNum = i
-            console.log(selectNum);
+            e.preventDefault();
+            if(el.classList.contains('selected')) return;
+            // console.log(e.target.getAttribute('href')); console.log(el.getAttribute('href'));
+            let selectNum = i;
             axios.get('./'+el.getAttribute('href')).then(function(res){
-              document.getElementsByClassName('content')[0].innerHTML = res.data;
+                document.querySelector('.menu > .selected').className = '';
+                document.getElementsByClassName('content')[0].innerHTML = res.data;
+                document.querySelector('.menu > a:nth-child('+(selectNum+1)+')').classList.add('selected');
+                location.hash = el.id;
             }).catch(function(error){
                 document.getElementsByClassName('content')[0].innerHTML = 'API ERROR';
+                console.log(error.response);
             });
-            e.preventDefault();
         });
     });
     axios.get('./Page0.html').then(function(res){
         document.getElementsByClassName('content')[0].innerHTML = res.data;
-        
+        document.querySelector('.menu > a:nth-child(1)').classList.add('selected');
     }).catch(function(error){
         document.getElementsByClassName('content')[0].innerHTML = 'API ERROR';
+    });
+    window.addEventListener('hashchange',el => {
+        console.log(el);
     });
 }
 

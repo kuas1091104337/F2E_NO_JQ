@@ -14,23 +14,24 @@
 // });
 
 window.onload = function(){
-	axios.get('./common.html')
-	.then(function(res){
-		// 2XX系列進來then
+	axios.get('./common.html').then(function(res){
 		console.log(res.data);
-		document.getElementById('render').innerHTML = res.data;
-		var hd1 = document.querySelector('#render > #header > *').outerHTML,
-				hd2 = document.querySelector('#render > #header > * + *').outerHTML,
-		    ft = document.querySelector('#render > #footer > *').outerHTML;
-		console.log(hd1);
-		console.log(ft);
-		document.getElementById('header').insertAdjacentHTML('afterbegin',hd1)
-		document.getElementById('header').insertAdjacentHTML('beforeend',hd2)
-		document.getElementById('footer').innerHTML = ft;
-		document.getElementById('render').innerHTML = '';
+		//s-1
+		document.getElementById('mainarea').insertAdjacentHTML('beforebegin',res.data)
+		document.getElementById('mainarea').insertAdjacentElement('afterend',document.getElementById('footer'))
+		//s-2
+		// document.getElementById('render').innerHTML = res.data;
+		// document.getElementById('mainarea').insertAdjacentElement('beforebegin',document.getElementById('header'))
+		// document.getElementById('mainarea').insertAdjacentElement('afterend',document.getElementById('footer'))
+		//s-3
+		// document.getElementById('render').innerHTML = res.data;
+		// var hd = document.querySelector('#render > #header').cloneNode(true),
+		//     ft = document.querySelector('#render > #footer').cloneNode(true);
+		// document.getElementById('mainarea').insertAdjacentElement('beforebegin',hd)
+		// document.getElementById('mainarea').insertAdjacentElement('afterend',ft)
+		// document.getElementById('render').innerHTML = '';
 	}).catch(function(error){
-		// 不是2XX系列進來catch
-		// console.log(error.response.data);
+		console.log(error.response);
 		// console.error(error.response.data.msg);
 	});
 }
